@@ -2,6 +2,9 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
+
 
 // Define paths for express contfig
 const app = express();
@@ -39,8 +42,57 @@ app.get('/help', (req, res)=>{
     })
 }) 
 
-app.get('/Weather', (req, res)=>{
-    res.send('Weather Page');
+app.get('/weather', (req, res)=>{
+
+    if(req.query.address){
+        // res.send({
+        //     forecast: 'It is snowing',
+        //     location: 'Philadelphia',
+        //     address: req.query.address
+        // });
+
+        geocode(req.query.address, (error, data = {})=>{
+
+            if(error){
+                return res.send({error});
+            }
+            // console.log("Location:");
+            // console.log('data', data);
+            
+            forecast(req.query.address, (error, Data)=>{
+                if(error){
+                    return res.send({error});
+                }
+                res.send({
+                    location: data,
+                    weather: Data
+                })
+            })
+        })
+    }else{
+        res.send({
+            error: 'You must provide a address term'
+        })
+    }    
+})
+
+
+app.get('/products', (req, res) =>{
+
+    if(req.query.search)
+    {
+        console.log(req.query.search)
+        res.send({
+            products: []
+        })
+    }
+    else{
+        res.send({
+            error: 'You must provide a search term'
+        })
+    }
+
+    
 })
 
 app.get('/help/*',(req, res)=>{
@@ -70,3 +122,6 @@ app.get('*',(req, res)=>{
 app.listen(3000, ()=>{
     console.log("Server is up on port 3000.")
 });
+
+
+// node src/app.js -e js,hbs
