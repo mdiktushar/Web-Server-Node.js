@@ -11,12 +11,12 @@ const forcast = (location, callback) =>{
         }else{
             const main = response.body.main;
             const weather = response.body.weather[0];
-            callback(undefined, {
-                'status': weather.main,
-                'temp': main.temp,
-                'humidity': main.humidity,
-                'sea llevel': main.sea_level
-            })
+            callback(undefined, 
+                'Status: '+weather.main+', '+
+                'Tempracher: '+main.temp+', '+
+                'Humidity: '+main.humidity+', '+
+                'Sea level: '+ main.sea_level
+            )
         }
         
     })
