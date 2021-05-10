@@ -16,7 +16,8 @@ weatherFrom.addEventListener('submit', (e)=>{
 
 
 const weather = (location) =>{
-    let uri = 'http://localhost:3000/weather?address='+location;
+    // let uri = 'http://localhost:3000/weather?address='+location;
+    let uri = '/weather?address='+location;
     fetch(uri).then((response)=>{
         response.json().then((data)=>{
             if(data.error){
