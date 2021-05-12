@@ -126,3 +126,4 @@ app.listen(port, ()=>{
 
 
 // node src/app.js -e js,hbs
+// npm run start  
